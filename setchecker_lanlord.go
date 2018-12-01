@@ -201,7 +201,7 @@ func (self *LandLordChecker) checkFourPlus(set poker.PokerSet) (*SetInfo,error){
 
 	set.SortAsc()
 
-	cardNum := AnalyzeEachCardValueNum(set)
+	cardNum := set.AnalyzeEachCardValueNum()
 	cardNumCount := len(cardNum)
 	if cardNumCount == 2{
 		k1 := -1
@@ -284,7 +284,7 @@ func (self *LandLordChecker) checkMultiThreePlus(set poker.PokerSet) (*SetInfo,e
 	}
 
 	set.SortAsc()
-	cardNum := AnalyzeEachCardValueNum(set)
+	cardNum := set.AnalyzeEachCardValueNum()
 
 	//mainCardValue := -1      //暂存主牌的value，用于比较是否连续
 	//mainCardNum := 0        //主牌的数量
@@ -365,7 +365,7 @@ func (self *LandLordChecker) checkMultiFourPlus(set poker.PokerSet) (*SetInfo,er
 	}
 
 	set.SortAsc()
-	cardNum := AnalyzeEachCardValueNum(set)
+	cardNum := set.AnalyzeEachCardValueNum()
 
 	//mainCardValue := -1      //暂存主牌的value，用于比较是否连续
 	//mainCardNum := 0        //主牌的数量
