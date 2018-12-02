@@ -8,13 +8,13 @@ import (
 
 
 //记牌器，记录玩家之外带各牌待出的数量
-type CardNameRecorder struct {
+type cardNameRecorder struct {
 	sync.RWMutex
 	dic map[string]int
 }
 
 //初始化玩家记牌器，发牌后调用
-func (re *CardNameRecorder)InitRecorder(){
+func (re *cardNameRecorder)InitRecorder(){
 	re.dic[poker.CARD_SYMBOL_THREE] = 0
 	re.dic[poker.CARD_SYMBOL_FOUR] = 0
 	re.dic[poker.CARD_SYMBOL_FIVE] = 0
@@ -32,7 +32,7 @@ func (re *CardNameRecorder)InitRecorder(){
 	re.dic[poker.CARD_SYMBOL_RED_JOKER] = 0
 }
 //增加记录器
-func (re *CardNameRecorder)AddPokerSet(playerPokers ...poker.PokerSet){
+func (re *cardNameRecorder)AddPokerSet(playerPokers ...poker.PokerSet){
 	re.Lock()
 	defer re.Unlock()
 	for _,pokerSet := range playerPokers{
@@ -43,7 +43,7 @@ func (re *CardNameRecorder)AddPokerSet(playerPokers ...poker.PokerSet){
 
 }
 //更新玩家记牌器,玩家出牌后调用
-func (re *CardNameRecorder)RemovePokerSet(cards poker.PokerSet){
+func (re *cardNameRecorder)RemovePokerSet(cards poker.PokerSet){
 	re.Lock()
 	defer re.Unlock()
 	cards.DoOnEachPokerCard(func(index int,card *poker.PokerCard){
@@ -51,7 +51,7 @@ func (re *CardNameRecorder)RemovePokerSet(cards poker.PokerSet){
 	})
 }
 //根据牌的顺序从大到小排序的记牌器json对象
-func (re *CardNameRecorder) SequenceJsonEncode() string{
+func (re *cardNameRecorder) SequenceJsonEncode() string{
 	re.Lock()
 	defer re.Unlock()
 	jsonString := ""
@@ -89,7 +89,7 @@ func (re *CardNameRecorder) SequenceJsonEncode() string{
 	return jsonString
 }
 
-func (re *CardNameRecorder) getPokerNum(key string) int{
+func (re *cardNameRecorder) getPokerNum(key string) int{
 	num,ok := re.dic[key]
 	if ok {
 		return num

@@ -6,13 +6,13 @@ import (
 )
 
 //定义玩家的扑克牌分析器map的索引为poker的value,value为改值得扑克牌在玩家牌中的索引
-type LandLordAnalyzer struct{
+type landLordAnalyzer struct{
 	sync.RWMutex
 	dic map[int]poker.PokerSet
 }
 
 //根据给定的扑克集初始化分析器
-func (ana *LandLordAnalyzer) InitAnalyzer(){
+func (ana *landLordAnalyzer) InitAnalyzer(){
 	ana.dic[poker.CARD_VALUE_THREE] = poker.PokerSet{}
 	ana.dic[poker.CARD_VALUE_FOUR] = poker.PokerSet{}
 	ana.dic[poker.CARD_VALUE_FIVE] = poker.PokerSet{}
@@ -30,7 +30,7 @@ func (ana *LandLordAnalyzer) InitAnalyzer(){
 	ana.dic[poker.CARD_VALUE_RED_JOKER] = poker.PokerSet{}
 }
 //根据给定的扑克集更新记牌器,出牌时调用
-func (ana *LandLordAnalyzer) RemovePokerSet(pokers poker.PokerSet){
+func (ana *landLordAnalyzer) RemovePokerSet(pokers poker.PokerSet){
 	ana.Lock()
 	defer ana.Unlock()
 	pokers.DoOnEachPokerCard(func(index int,card *poker.PokerCard){
@@ -38,7 +38,7 @@ func (ana *LandLordAnalyzer) RemovePokerSet(pokers poker.PokerSet){
 	})
 }
 
-func (ana *LandLordAnalyzer) AddPokerSet(pokers poker.PokerSet){
+func (ana *landLordAnalyzer) AddPokerSet(pokers poker.PokerSet){
 	ana.Lock()
 	defer ana.Unlock()
 	pokers.DoOnEachPokerCard(func(index int,card *poker.PokerCard){
@@ -46,7 +46,7 @@ func (ana *LandLordAnalyzer) AddPokerSet(pokers poker.PokerSet){
 	})
 }
 
-func (ana *LandLordAnalyzer) GetMinPlayableCards() poker.PokerSet{
+func (ana *landLordAnalyzer) GetMinPlayableCards() poker.PokerSet{
 	ana.Lock()
 	defer ana.Unlock()
 	for i:= poker.CARD_VALUE_THREE;i<=poker.CARD_VALUE_RED_JOKER;i++{
@@ -58,7 +58,7 @@ func (ana *LandLordAnalyzer) GetMinPlayableCards() poker.PokerSet{
 	return poker.PokerSet{}
 }
 //根据最后一次出牌的牌型信息，返回可出的扑克集
-func (ana *LandLordAnalyzer) GetUseableCards(setType *SetInfo) []poker.PokerSet{
+func (ana *landLordAnalyzer) GetUseableCards(setType *SetInfo) []poker.PokerSet{
 	ana.Lock()
 	defer ana.Unlock()
 
@@ -206,7 +206,7 @@ func (ana *LandLordAnalyzer) GetUseableCards(setType *SetInfo) []poker.PokerSet{
 //获取单值牌组成的扑克集的切片，单排对牌三牌四排等等
 //count表示单值牌的张数
 //minValue表示上家出牌的最小的牌的大小
-func (ana *LandLordAnalyzer) getSingleValueSet(count int,minValue int) []poker.PokerSet{
+func (ana *landLordAnalyzer) getSingleValueSet(count int,minValue int) []poker.PokerSet{
 	sets := []poker.PokerSet{}
 	se := poker.NewPokerSet()
 	//先不拆牌的情况下查找
@@ -230,7 +230,7 @@ func (ana *LandLordAnalyzer) getSingleValueSet(count int,minValue int) []poker.P
 	return sets
 }
 //获取多种不同值组成的扑克集的切片,2连3连4连5连等
-func (ana *LandLordAnalyzer) getMultiValueSet(count int,minValue int,maxValue int) []poker.PokerSet{
+func (ana *landLordAnalyzer) getMultiValueSet(count int,minValue int,maxValue int) []poker.PokerSet{
 	sets := []poker.PokerSet{}
 	se := poker.NewPokerSet()
 	valueRange := maxValue-minValue+1
@@ -272,7 +272,7 @@ func (ana *LandLordAnalyzer) getMultiValueSet(count int,minValue int,maxValue in
 //获取附牌，比如三带一中的一，四带二中二，只获取一种可能即可
 //不拆牌为第一原则，可能会带出去大牌
 //num张数count系列数exceptset不能包含在内的扑克集
-func (ana *LandLordAnalyzer) getPlusSet(num int,count int,exceptSet poker.PokerSet) poker.PokerSet{
+func (ana *landLordAnalyzer) getPlusSet(num int,count int,exceptSet poker.PokerSet) poker.PokerSet{
 	resSet := poker.NewPokerSet()
 	//第一原则不拆牌原则
 	for i:= poker.CARD_VALUE_THREE;i<= poker.CARD_VALUE_RED_JOKER;i++{
@@ -301,7 +301,7 @@ func (ana *LandLordAnalyzer) getPlusSet(num int,count int,exceptSet poker.PokerS
 
 	return poker.PokerSet{}
 }
-func (ana *LandLordAnalyzer) getJokerBomb() poker.PokerSet{
+func (ana *landLordAnalyzer) getJokerBomb() poker.PokerSet{
 	resSet := poker.NewPokerSet()
 	for i:= poker.CARD_VALUE_BLACK_JOKER;i<= poker.CARD_VALUE_RED_JOKER;i++ {
 		if ana.dic[i].CountCards() > 0 {

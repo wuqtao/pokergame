@@ -6,10 +6,10 @@ import
 		"github.com/wqtapp/poker"
 	)
 
-type LandLordChecker struct {
+type landLordChecker struct {
 
 }
-func (self LandLordChecker) GetSetInfo(set poker.PokerSet) (*SetInfo,error) {
+func (self landLordChecker) GetSetInfo(set poker.PokerSet) (*SetInfo,error) {
 	switch set.CountCards() {
 	case 0:
 		return nil,errors.New("玩家出牌为空")
@@ -62,7 +62,7 @@ func (self LandLordChecker) GetSetInfo(set poker.PokerSet) (*SetInfo,error) {
 	}
 }
 
-func (self LandLordChecker) isPair(set poker.PokerSet) bool{
+func (self landLordChecker) isPair(set poker.PokerSet) bool{
 	if set.CountCards() != 2 {
 		return false
 	}
@@ -73,7 +73,7 @@ func (self LandLordChecker) isPair(set poker.PokerSet) bool{
 	return false
 }
 
-func (self LandLordChecker) isMultiPair(set poker.PokerSet) bool{
+func (self landLordChecker) isMultiPair(set poker.PokerSet) bool{
 	if set.CountCards()%2 != 0 || len(set) < 6 {
 		return false
 	}
@@ -106,7 +106,7 @@ func (self LandLordChecker) isMultiPair(set poker.PokerSet) bool{
 	return true
 }
 
-func (self LandLordChecker) isJokerBomb(set poker.PokerSet) bool{
+func (self landLordChecker) isJokerBomb(set poker.PokerSet) bool{
 	if set.CountCards() != 2{
 		return false
 	}
@@ -119,7 +119,7 @@ func (self LandLordChecker) isJokerBomb(set poker.PokerSet) bool{
 	return false
 }
 
-func (self LandLordChecker) isCommonBomb(set poker.PokerSet) bool{
+func (self landLordChecker) isCommonBomb(set poker.PokerSet) bool{
 	if set.CountCards() != 4{
 		return false
 	}
@@ -131,7 +131,7 @@ func (self LandLordChecker) isCommonBomb(set poker.PokerSet) bool{
 	}
 }
 
-func (self LandLordChecker) isDragon(set poker.PokerSet) bool{
+func (self landLordChecker) isDragon(set poker.PokerSet) bool{
 	if len(set) < 5 {
 		return false
 	}
@@ -157,7 +157,7 @@ func (self LandLordChecker) isDragon(set poker.PokerSet) bool{
 	return true
 }
 
-func (self LandLordChecker) checkThreePlus(set poker.PokerSet) (*SetInfo,error){
+func (self landLordChecker) checkThreePlus(set poker.PokerSet) (*SetInfo,error){
 	pokersNum := set.CountCards()
 	if pokersNum < 3 || pokersNum >5{
 		return nil,errors.New("不是三带牌")
@@ -192,7 +192,7 @@ func (self LandLordChecker) checkThreePlus(set poker.PokerSet) (*SetInfo,error){
 }
 
 //是否是四代一或者四代二
-func (self LandLordChecker) checkFourPlus(set poker.PokerSet) (*SetInfo,error){
+func (self landLordChecker) checkFourPlus(set poker.PokerSet) (*SetInfo,error){
 
 	pokersNum := set.CountCards()
 	if pokersNum != 6 && pokersNum != 8{
@@ -277,7 +277,7 @@ func (self LandLordChecker) checkFourPlus(set poker.PokerSet) (*SetInfo,error){
 }
 
 //是否多个三带一，或三代二，或不带
-func (self LandLordChecker) checkMultiThreePlus(set poker.PokerSet) (*SetInfo,error){
+func (self landLordChecker) checkMultiThreePlus(set poker.PokerSet) (*SetInfo,error){
 	pokerNum := set.CountCards()
 	if pokerNum < 6 {
 		return nil,errors.New("不是三顺")
@@ -357,7 +357,7 @@ func (self LandLordChecker) checkMultiThreePlus(set poker.PokerSet) (*SetInfo,er
 }
 
 //是否多个四带一或四代二，或不带
-func (self LandLordChecker) checkMultiFourPlus(set poker.PokerSet) (*SetInfo,error){
+func (self landLordChecker) checkMultiFourPlus(set poker.PokerSet) (*SetInfo,error){
 
 	pokerNum := set.CountCards()
 	if pokerNum < 8 || pokerNum%2 != 0 {

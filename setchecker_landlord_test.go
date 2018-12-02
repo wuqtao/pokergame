@@ -23,7 +23,7 @@ type Check struct{
 func checkBool(t *testing.T,c []Check,funcName string){
 	for i := range c{
 		set := getPokerset(c[i].setStr)
-		setInfo := reflect.ValueOf(&LandLordChecker{})
+		setInfo := reflect.ValueOf(&landLordChecker{})
 		method := setInfo.MethodByName(funcName)
 		if method.String() == "<invalid Value>"{
 			t.Error("no this func "+funcName)
@@ -41,7 +41,7 @@ func checkBool(t *testing.T,c []Check,funcName string){
 func checkBoolWithType(t *testing.T,c []Check,funcName string){
 	for i := range c{
 		set := getPokerset(c[i].setStr)
-		setInfo := reflect.ValueOf(LandLordChecker{})
+		setInfo := reflect.ValueOf(landLordChecker{})
 		fmt.Println(setInfo.NumMethod())
 		return
 		method := setInfo.MethodByName(funcName)

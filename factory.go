@@ -48,7 +48,7 @@ func NewSetChecker(gameType int) ISetChecker{
 func NewAnalyzer(gameType int) IAnalyzer{
 	switch gameType {
 		case GAME_OF_LANDLORD:
-			analyzer := LandLordAnalyzer{}
+			analyzer := landLordAnalyzer{}
 			analyzer.InitAnalyzer()
 			return &analyzer
 		case GAME_OF_ROYALIST:
@@ -63,7 +63,7 @@ func NewAnalyzer(gameType int) IAnalyzer{
 func NewRecorder(gameType int) IRecorder{
 	switch gameType {
 		case GAME_OF_LANDLORD:
-			recorder := CardNameRecorder{}
+			recorder := cardNameRecorder{}
 			recorder.InitRecorder()
 			return &recorder
 		case GAME_OF_ROYALIST:
