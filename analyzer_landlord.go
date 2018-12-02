@@ -65,17 +65,17 @@ func (ana *LandLordAnalyzer) GetUseableCards(setType *SetInfo) []poker.PokerSet{
 	var useableSets []poker.PokerSet
 
 	switch setType.setType {
-	case SET_TYPE_SINGLE:
+	case LANDLORD_SET_TYPE_SINGLE:
 		useableSets = ana.getSingleValueSet(1,setType.GetMinValue())
-	case SET_TYPE_DRAGON:
+	case LANDLORD_SET_TYPE_DRAGON:
 		useableSets = ana.getMultiValueSet(1,setType.GetMinValue(),setType.GetMaxValue())
-	case SET_TYPE_PAIR:
+	case LANDLORD_SET_TYPE_PAIR:
 		useableSets = ana.getSingleValueSet(2,setType.GetMinValue())
-	case SET_TYPE_MULIT_PAIRS:
+	case LANDLORD_SET_TYPE_MULIT_PAIRS:
 		useableSets = ana.getMultiValueSet(2,setType.GetMinValue(),setType.GetMaxValue())
-	case SET_TYPE_THREE:
+	case LANDLORD_SET_TYPE_THREE:
 		useableSets = ana.getSingleValueSet(3,setType.GetMinValue())
-	case SET_TYPE_THREE_PLUS_ONE:
+	case LANDLORD_SET_TYPE_THREE_PLUS_ONE:
 		useableSets = ana.getSingleValueSet(3,setType.GetMinValue())
 		for i,tempset := range useableSets{
 			tempsetPlus := ana.getPlusSet(1,1,tempset)
@@ -85,7 +85,7 @@ func (ana *LandLordAnalyzer) GetUseableCards(setType *SetInfo) []poker.PokerSet{
 				useableSets[i] = nil
 			}
 		}
-	case SET_TYPE_THREE_PLUS_TWO:
+	case LANDLORD_SET_TYPE_THREE_PLUS_TWO:
 		useableSets = ana.getSingleValueSet(3,setType.GetMinValue())
 		for i,tempset := range useableSets{
 			tempsetPlus := ana.getPlusSet(2,1,tempset)
@@ -95,9 +95,9 @@ func (ana *LandLordAnalyzer) GetUseableCards(setType *SetInfo) []poker.PokerSet{
 				useableSets[i] = nil
 			}
 		}
-	case SET_TYPE_MULITY_THREE:
+	case LANDLORD_SET_TYPE_MULITY_THREE:
 		useableSets = ana.getMultiValueSet(3,setType.GetMinValue(),setType.GetMaxValue())
-	case SET_TYPE_MULITY_THREE_PLUS_ONE:
+	case LANDLORD_SET_TYPE_MULITY_THREE_PLUS_ONE:
 		useableSets = ana.getMultiValueSet(3,setType.GetMinValue(),setType.GetMaxValue())
 		for i,tempset := range useableSets{
 			tempsetPlus := ana.getPlusSet(1,setType.GetRangeWidth(),tempset)
@@ -107,7 +107,7 @@ func (ana *LandLordAnalyzer) GetUseableCards(setType *SetInfo) []poker.PokerSet{
 				useableSets[i] = nil
 			}
 		}
-	case SET_TYPE_MULITY_THREE_PLUS_TWO:
+	case LANDLORD_SET_TYPE_MULITY_THREE_PLUS_TWO:
 		useableSets = ana.getMultiValueSet(3,setType.GetMinValue(),setType.GetMaxValue())
 		for i,tempset := range useableSets{
 			tempsetPlus := ana.getPlusSet(2,setType.GetRangeWidth(),tempset)
@@ -117,7 +117,7 @@ func (ana *LandLordAnalyzer) GetUseableCards(setType *SetInfo) []poker.PokerSet{
 				useableSets[i] = nil
 			}
 		}
-	case SET_TYPE_FOUR_PLUS_TWO:
+	case LANDLORD_SET_TYPE_FOUR_PLUS_TWO:
 		useableSets = ana.getSingleValueSet(4,setType.GetMinValue())
 		for i,tempset := range useableSets{
 			//带两个单牌
@@ -134,7 +134,7 @@ func (ana *LandLordAnalyzer) GetUseableCards(setType *SetInfo) []poker.PokerSet{
 				}
 			}
 		}
-	case SET_TYPE_FOUR_PLUS_FOUR:
+	case LANDLORD_SET_TYPE_FOUR_PLUS_FOUR:
 		useableSets = ana.getSingleValueSet(4,setType.GetMinValue())
 		for i,tempset := range useableSets{
 			tempsetPlus := ana.getPlusSet(2,2,tempset)
@@ -144,9 +144,9 @@ func (ana *LandLordAnalyzer) GetUseableCards(setType *SetInfo) []poker.PokerSet{
 				useableSets[i] = nil
 			}
 		}
-	case SET_TYPE_MULITY_FOUR:
+	case LANDLORD_SET_TYPE_MULITY_FOUR:
 		useableSets = ana.getMultiValueSet(4,setType.GetMinValue(),setType.GetMaxValue())
-	case SET_TYPE_MULITY_FOUR_PLUS_TWO:
+	case LANDLORD_SET_TYPE_MULITY_FOUR_PLUS_TWO:
 		useableSets = ana.getMultiValueSet(4,setType.GetMinValue(),setType.GetMaxValue())
 		for i,tempset := range useableSets{
 			//带两个单牌
@@ -163,7 +163,7 @@ func (ana *LandLordAnalyzer) GetUseableCards(setType *SetInfo) []poker.PokerSet{
 				}
 			}
 		}
-	case SET_TYPE_MULITY_FOUR_PLUS_FOUR:
+	case LANDLORD_SET_TYPE_MULITY_FOUR_PLUS_FOUR:
 		useableSets = ana.getMultiValueSet(4,setType.GetMinValue(),setType.GetMaxValue())
 		for i,tempset := range useableSets{
 			tempsetPlus := ana.getPlusSet(2,2*setType.GetRangeWidth(),tempset)
@@ -173,9 +173,9 @@ func (ana *LandLordAnalyzer) GetUseableCards(setType *SetInfo) []poker.PokerSet{
 				useableSets[i] = nil
 			}
 		}
-	case SET_TYPE_COMMON_BOMB:
+	case LANDLORD_SET_TYPE_COMMON_BOMB:
 		useableSets = ana.getSingleValueSet(4,setType.GetMinValue())
-	case SET_TYPE_JOKER_BOMB:
+	case LANDLORD_SET_TYPE_JOKER_BOMB:
 		useableSets = []poker.PokerSet{}
 	default:
 		useableSets = []poker.PokerSet{}
@@ -188,7 +188,7 @@ func (ana *LandLordAnalyzer) GetUseableCards(setType *SetInfo) []poker.PokerSet{
 		}
 	}
 	//上一次出牌不是炸弹，则直接将炸弹加入可出的排中
-	if setType.setType != SET_TYPE_COMMON_BOMB && setType.setType != SET_TYPE_JOKER_BOMB{
+	if setType.setType != LANDLORD_SET_TYPE_COMMON_BOMB && setType.setType != LANDLORD_SET_TYPE_JOKER_BOMB {
 		//王炸
 		jokerBombSet := ana.getJokerBomb()
 		if jokerBombSet.CountCards() > 0{

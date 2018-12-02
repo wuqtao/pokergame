@@ -1,29 +1,29 @@
 package pokergame
 
-import (
-	"errors"
-	"github.com/wqtapp/poker"
-)
+import
+	(
+		"errors"
+		"github.com/wqtapp/poker"
+	)
 
 type LandLordChecker struct {
 
 }
-
-func (self *LandLordChecker) GetSetInfo(set poker.PokerSet) (*SetInfo,error) {
+func (self LandLordChecker) GetSetInfo(set poker.PokerSet) (*SetInfo,error) {
 	switch set.CountCards() {
 	case 0:
 		return nil,errors.New("玩家出牌为空")
 		//单张
 	case 1:
-		return NewSetInfo(SET_TYPE_SINGLE,set[0].GetValue(),set[0].GetValue()),nil
+		return NewSetInfo(LANDLORD_SET_TYPE_SINGLE,set[0].GetValue(),set[0].GetValue()),nil
 		//对子或者王炸
 	case 2:
 		if self.isPair(set){
-			return NewSetInfo(SET_TYPE_PAIR,set[0].GetValue(),set[0].GetValue()),nil
+			return NewSetInfo(LANDLORD_SET_TYPE_PAIR,set[0].GetValue(),set[0].GetValue()),nil
 		}
 
 		if self.isJokerBomb(set){
-			return NewSetInfo(SET_TYPE_JOKER_BOMB,set[0].GetValue(),set[1].GetValue()),nil
+			return NewSetInfo(LANDLORD_SET_TYPE_JOKER_BOMB,set[0].GetValue(),set[1].GetValue()),nil
 		}
 
 		return nil,errors.New("牌型不符合规则")
@@ -33,23 +33,23 @@ func (self *LandLordChecker) GetSetInfo(set poker.PokerSet) (*SetInfo,error) {
 		//炸弹或三带一
 	case 4:
 		if self.isCommonBomb(set){
-			return NewSetInfo(SET_TYPE_COMMON_BOMB,set[0].GetValue(),set[0].GetValue()),nil
+			return NewSetInfo(LANDLORD_SET_TYPE_COMMON_BOMB,set[0].GetValue(),set[0].GetValue()),nil
 		}
 		return self.checkThreePlus(set)
 		//三带二或者一条龙
 	case 5:
 		if self.isDragon(set){
-			return NewSetInfo(SET_TYPE_DRAGON,set[0].GetValue(),set[set.CountCards()-1].GetValue()),nil
+			return NewSetInfo(LANDLORD_SET_TYPE_DRAGON,set[0].GetValue(),set[set.CountCards()-1].GetValue()),nil
 		}
 		return self.checkThreePlus(set)
 		//一条龙，或者四带二，或者四带二对
 	default:
 		if self.isDragon(set){
-			return NewSetInfo(SET_TYPE_DRAGON,set[0].GetValue(),set[set.CountCards()-1].GetValue()),nil
+			return NewSetInfo(LANDLORD_SET_TYPE_DRAGON,set[0].GetValue(),set[set.CountCards()-1].GetValue()),nil
 		}
 
 		if self.isMultiPair(set){
-			return NewSetInfo(SET_TYPE_MULIT_PAIRS,set[0].GetValue(),set[set.CountCards()-1].GetValue()),nil
+			return NewSetInfo(LANDLORD_SET_TYPE_MULIT_PAIRS,set[0].GetValue(),set[set.CountCards()-1].GetValue()),nil
 		}
 
 		if cardsType,err := self.checkFourPlus(set);err == nil{
@@ -62,7 +62,7 @@ func (self *LandLordChecker) GetSetInfo(set poker.PokerSet) (*SetInfo,error) {
 	}
 }
 
-func (self *LandLordChecker) isPair(set poker.PokerSet) bool{
+func (self LandLordChecker) isPair(set poker.PokerSet) bool{
 	if set.CountCards() != 2 {
 		return false
 	}
@@ -73,7 +73,7 @@ func (self *LandLordChecker) isPair(set poker.PokerSet) bool{
 	return false
 }
 
-func (self *LandLordChecker) isMultiPair(set poker.PokerSet) bool{
+func (self LandLordChecker) isMultiPair(set poker.PokerSet) bool{
 	if set.CountCards()%2 != 0 || len(set) < 6 {
 		return false
 	}
@@ -106,7 +106,7 @@ func (self *LandLordChecker) isMultiPair(set poker.PokerSet) bool{
 	return true
 }
 
-func (self *LandLordChecker) isJokerBomb(set poker.PokerSet) bool{
+func (self LandLordChecker) isJokerBomb(set poker.PokerSet) bool{
 	if set.CountCards() != 2{
 		return false
 	}
@@ -119,7 +119,7 @@ func (self *LandLordChecker) isJokerBomb(set poker.PokerSet) bool{
 	return false
 }
 
-func (self *LandLordChecker) isCommonBomb(set poker.PokerSet) bool{
+func (self LandLordChecker) isCommonBomb(set poker.PokerSet) bool{
 	if set.CountCards() != 4{
 		return false
 	}
@@ -131,7 +131,7 @@ func (self *LandLordChecker) isCommonBomb(set poker.PokerSet) bool{
 	}
 }
 
-func (self *LandLordChecker) isDragon(set poker.PokerSet) bool{
+func (self LandLordChecker) isDragon(set poker.PokerSet) bool{
 	if len(set) < 5 {
 		return false
 	}
@@ -157,7 +157,7 @@ func (self *LandLordChecker) isDragon(set poker.PokerSet) bool{
 	return true
 }
 
-func (self *LandLordChecker) checkThreePlus(set poker.PokerSet) (*SetInfo,error){
+func (self LandLordChecker) checkThreePlus(set poker.PokerSet) (*SetInfo,error){
 	pokersNum := set.CountCards()
 	if pokersNum < 3 || pokersNum >5{
 		return nil,errors.New("不是三带牌")
@@ -168,7 +168,7 @@ func (self *LandLordChecker) checkThreePlus(set poker.PokerSet) (*SetInfo,error)
 	cardNumCount := len(cardNum)
 	if pokersNum == 3{
 		if cardNumCount == 1{
-			return NewSetInfo(SET_TYPE_THREE,set[0].GetValue(),set[0].GetValue()),nil
+			return NewSetInfo(LANDLORD_SET_TYPE_THREE,set[0].GetValue(),set[0].GetValue()),nil
 		}else{
 			return nil,errors.New("不是三带牌")
 		}
@@ -178,9 +178,9 @@ func (self *LandLordChecker) checkThreePlus(set poker.PokerSet) (*SetInfo,error)
 			for k,v := range cardNum{
 				if v == 3{
 					if(pokersNum == 4){
-						return NewSetInfo(SET_TYPE_THREE_PLUS_ONE,k,k),nil
+						return NewSetInfo(LANDLORD_SET_TYPE_THREE_PLUS_ONE,k,k),nil
 					}else{
-						return NewSetInfo(SET_TYPE_THREE_PLUS_TWO,k,k),nil
+						return NewSetInfo(LANDLORD_SET_TYPE_THREE_PLUS_TWO,k,k),nil
 					}
 				}
 			}
@@ -192,7 +192,7 @@ func (self *LandLordChecker) checkThreePlus(set poker.PokerSet) (*SetInfo,error)
 }
 
 //是否是四代一或者四代二
-func (self *LandLordChecker) checkFourPlus(set poker.PokerSet) (*SetInfo,error){
+func (self LandLordChecker) checkFourPlus(set poker.PokerSet) (*SetInfo,error){
 
 	pokersNum := set.CountCards()
 	if pokersNum != 6 && pokersNum != 8{
@@ -223,9 +223,9 @@ func (self *LandLordChecker) checkFourPlus(set poker.PokerSet) (*SetInfo,error){
 		if pokersNum == 6{
 			//支持444455这种四带二
 			if v1 == 4{
-				return NewSetInfo(SET_TYPE_FOUR_PLUS_TWO,k1,k1),nil
+				return NewSetInfo(LANDLORD_SET_TYPE_FOUR_PLUS_TWO,k1,k1),nil
 			}else if v2 == 4{
-				return NewSetInfo(SET_TYPE_FOUR_PLUS_TWO,k2,k2),nil
+				return NewSetInfo(LANDLORD_SET_TYPE_FOUR_PLUS_TWO,k2,k2),nil
 			}else{
 				return nil,errors.New("不是四带牌")
 			}
@@ -239,7 +239,7 @@ func (self *LandLordChecker) checkFourPlus(set poker.PokerSet) (*SetInfo,error){
 				}else{
 					k = k2
 				}
-				return NewSetInfo(SET_TYPE_FOUR_PLUS_FOUR,k,k),nil
+				return NewSetInfo(LANDLORD_SET_TYPE_FOUR_PLUS_FOUR,k,k),nil
 			}else{
 				return nil,errors.New("不是四带牌")
 			}
@@ -265,10 +265,10 @@ func (self *LandLordChecker) checkFourPlus(set poker.PokerSet) (*SetInfo,error){
 		}else{
 			if pokersNum == 6 {
 				//四带二444456这种
-				return NewSetInfo(SET_TYPE_FOUR_PLUS_TWO,mainValue,mainValue),nil
+				return NewSetInfo(LANDLORD_SET_TYPE_FOUR_PLUS_TWO,mainValue,mainValue),nil
 			}else{
 				//四带四44445566这种
-				return NewSetInfo(SET_TYPE_FOUR_PLUS_FOUR,mainValue,mainValue),nil
+				return NewSetInfo(LANDLORD_SET_TYPE_FOUR_PLUS_FOUR,mainValue,mainValue),nil
 			}
 		}
 	} else{
@@ -277,7 +277,7 @@ func (self *LandLordChecker) checkFourPlus(set poker.PokerSet) (*SetInfo,error){
 }
 
 //是否多个三带一，或三代二，或不带
-func (self *LandLordChecker) checkMultiThreePlus(set poker.PokerSet) (*SetInfo,error){
+func (self LandLordChecker) checkMultiThreePlus(set poker.PokerSet) (*SetInfo,error){
 	pokerNum := set.CountCards()
 	if pokerNum < 6 {
 		return nil,errors.New("不是三顺")
@@ -341,23 +341,23 @@ func (self *LandLordChecker) checkMultiThreePlus(set poker.PokerSet) (*SetInfo,e
 
 	//没有附牌
 	if attachCardNum == 0{
-		return NewSetInfo(SET_TYPE_MULITY_THREE,realMainCardValues[0],realMainCardValues[len(realMainCardValues)-1]),nil
+		return NewSetInfo(LANDLORD_SET_TYPE_MULITY_THREE,realMainCardValues[0],realMainCardValues[len(realMainCardValues)-1]),nil
 	}else if mainCardNum == attachCardNum{//三带一
-		return NewSetInfo(SET_TYPE_MULITY_THREE_PLUS_ONE,realMainCardValues[0],realMainCardValues[len(realMainCardValues)-1]),nil
+		return NewSetInfo(LANDLORD_SET_TYPE_MULITY_THREE_PLUS_ONE,realMainCardValues[0],realMainCardValues[len(realMainCardValues)-1]),nil
 	}else if mainCardNum*2 == attachCardNum{//三带二
 		for _,v := range attachCardNumMap{
 			if v != 2 && v != 4{
 				return nil,errors.New("不是三顺")
 			}
 		}
-		return NewSetInfo(SET_TYPE_MULITY_THREE_PLUS_TWO,realMainCardValues[0],realMainCardValues[len(realMainCardValues)-1]),nil
+		return NewSetInfo(LANDLORD_SET_TYPE_MULITY_THREE_PLUS_TWO,realMainCardValues[0],realMainCardValues[len(realMainCardValues)-1]),nil
 	}else{
 		return nil,errors.New("不是三顺")
 	}
 }
 
 //是否多个四带一或四代二，或不带
-func (self *LandLordChecker) checkMultiFourPlus(set poker.PokerSet) (*SetInfo,error){
+func (self LandLordChecker) checkMultiFourPlus(set poker.PokerSet) (*SetInfo,error){
 
 	pokerNum := set.CountCards()
 	if pokerNum < 8 || pokerNum%2 != 0 {
@@ -423,16 +423,16 @@ func (self *LandLordChecker) checkMultiFourPlus(set poker.PokerSet) (*SetInfo,er
 
 	//没有附牌
 	if attachCardNum == 0{//四不带
-		return NewSetInfo(SET_TYPE_MULITY_FOUR,realMainCardValues[0],realMainCardValues[len(realMainCardValues)-1]),nil
+		return NewSetInfo(LANDLORD_SET_TYPE_MULITY_FOUR,realMainCardValues[0],realMainCardValues[len(realMainCardValues)-1]),nil
 	}else if mainCardNum*2 == attachCardNum{//四带二
-		return NewSetInfo(SET_TYPE_MULITY_FOUR_PLUS_TWO,realMainCardValues[0],realMainCardValues[len(realMainCardValues)-1]),nil
+		return NewSetInfo(LANDLORD_SET_TYPE_MULITY_FOUR_PLUS_TWO,realMainCardValues[0],realMainCardValues[len(realMainCardValues)-1]),nil
 	}else if mainCardNum*4 == attachCardNum{//四带四
 		for _,v := range attachCardNumMap{
 			if v != 2 && v != 4{
 				return nil,errors.New("不是四顺")
 			}
 		}
-		return NewSetInfo(SET_TYPE_MULITY_FOUR_PLUS_FOUR,realMainCardValues[0],realMainCardValues[len(realMainCardValues)-1]),nil
+		return NewSetInfo(LANDLORD_SET_TYPE_MULITY_FOUR_PLUS_FOUR,realMainCardValues[0],realMainCardValues[len(realMainCardValues)-1]),nil
 	}else{
 		return nil,errors.New("不是四顺")
 	}
