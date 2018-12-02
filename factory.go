@@ -36,6 +36,8 @@ type ISetChecker interface {
 func NewSetChecker(gameType int) ISetChecker{
 	switch gameType {
 		case GAME_OF_LANDLORD:
+			landLordChecker := landLordChecker{}
+			return &landLordChecker
 		case GAME_OF_ROYALIST:
 		case GAME_OF_SHENGJI:
 		case GAME_OF_ZHAJINHUA:
