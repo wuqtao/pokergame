@@ -13,6 +13,7 @@ type landLordAnalyzer struct{
 
 //根据给定的扑克集初始化分析器
 func (ana *landLordAnalyzer) InitAnalyzer(){
+	ana.dic = make(map[int]poker.PokerSet)
 	ana.dic[poker.CARD_VALUE_THREE] = poker.PokerSet{}
 	ana.dic[poker.CARD_VALUE_FOUR] = poker.PokerSet{}
 	ana.dic[poker.CARD_VALUE_FIVE] = poker.PokerSet{}

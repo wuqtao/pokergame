@@ -15,6 +15,7 @@ type cardNameRecorder struct {
 
 //初始化玩家记牌器，发牌后调用
 func (re *cardNameRecorder)InitRecorder(){
+	re.dic = make(map[string]int)
 	re.dic[poker.CARD_SYMBOL_THREE] = 0
 	re.dic[poker.CARD_SYMBOL_FOUR] = 0
 	re.dic[poker.CARD_SYMBOL_FIVE] = 0
